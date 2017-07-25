@@ -56,15 +56,15 @@ Try {
 	##* VARIABLE DECLARATION
 	##*===============================================
 	## Variables: Application
-	[string]$appVendor = ''
-	[string]$appName = ''
+	[string]$appVendor = 'Google'
+	[string]$appName = 'Earth Web Shortcut'
 	[string]$appVersion = ''
 	[string]$appArch = ''
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '1.0.0'
-	[string]$appScriptDate = '06/12/2017'
-	[string]$appScriptAuthor = '<author name>'
+	[string]$appScriptDate = '07/24/2017'
+	[string]$appScriptAuthor = ''
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
 	[string]$installName = ''
@@ -134,6 +134,18 @@ Try {
 		## <Perform Installation tasks here>
 				#$exitCode = Execute-MSI -Action "Install" -Path "FusionAgentDesktopSetup.msi" -Parameters "ALLUSERS=1 REBOOT=ReallySuppress /QN" -PassThru
 				#If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
+				If (-not (Test-Path "$envProgramData\Management")) {
+						New-Folder -Path "$envProgramData\Management"
+				}
+
+				Copy-File -Path "$dirFiles\google_earth.ico" -Destination "$envProgramData\Management\google_earth.ico"
+				Copy-File -Path "$dirFiles\Google Earth.lnk" -Destination "$envAllUsersProfile\Microsoft\Windows\Start Menu\Programs\Google Earth.lnk"
+				Copy-File -Path "$dirFiles\Google Earth.lnk" -Destination "$envCommonDesktop\Google Earth.lnk"
+
+
+
+				#New-Shortcut -Path "$envCommonDesktop\Google Earth.lnk" -TargetPath '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe\" https://earth.google.com/web' -IconLocation "$envWinDir\Management\google_earth.ico"
 
 
 		##*===============================================
